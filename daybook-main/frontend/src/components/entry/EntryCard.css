@@ -1,0 +1,183 @@
+/* Book container */
+.book {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 2500px;
+  margin: 50px auto;
+  position: relative;
+  width: 900px;   /* Bigger size */
+  height: 600px;
+  font-family: "Merriweather", serif;
+  background: #cbb79b;
+  border-radius: 12px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Spine (middle binding) */
+.book::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 8px;
+  height: 100%;
+  background: #4b2e1e;
+  transform: translateX(-50%);
+  z-index: 5;
+  box-shadow: inset -2px 0 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Pages */
+.page {
+  width: 50%;
+  height: 100%;
+  background: #fffdf7;
+  border: 1px solid #d4c5a1;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  position: relative;
+  background-image: url("https://www.transparenttextures.com/patterns/old-mathematics.png"); /* subtle paper texture */
+  background-size: cover;
+}
+
+/* Left page */
+.page.left {
+  border-radius: 12px 0 0 12px;
+  border-right: none;
+  z-index: 2;
+  background: linear-gradient(to right, #fdfbf5, #f7f2e9);
+}
+
+/* Right page (flippable) */
+.page.right {
+  border-radius: 0 12px 12px 0;
+  border-left: none;
+  transform-origin: left center;
+  transition: transform 1.2s ease-in-out, box-shadow 0.8s ease-in-out;
+  background: linear-gradient(to left, #fdfbf5, #f7f2e9);
+  z-index: 3;
+}
+
+/* Flip effect */
+.page.right.flipped {
+  transform: rotateY(-180deg);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+  z-index: 1;
+}
+
+/* Page curl shadow */
+.page.right::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -15px;
+  width: 25px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.25), transparent);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.page.right.flipped::after {
+  opacity: 0;
+}
+
+/* Multiple page stacking */
+.page::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: -6px;
+  width: 6px;
+  height: 95%;
+  border-radius: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #e8e4da,
+    #e8e4da 2px,
+    #f9f6ef 4px
+  );
+}
+
+/* Inner content */
+.page-inner {
+  padding: 30px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.page-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #3e2723;
+  text-shadow: 1px 1px #e5d9b6;
+}
+.page-content p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #2c2c2c;
+  text-align: justify;
+}
+
+/* Date and edited text */
+.date {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 5px;
+}
+.edited {
+  margin-top: 25px;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #444;
+}
+
+/* Controls inside page */
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px;
+}
+
+/* Book navigation buttons */
+.book-controls {
+  position: absolute;
+  bottom: -60px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 25px;
+}
+
+.book-controls button {
+  background: linear-gradient(135deg, #8e5a36, #6b4226);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.book-controls button:hover {
+  background: linear-gradient(135deg, #b26b3a, #8e5a36);
+  transform: scale(1.15) rotate(-2deg);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+/* Bookmark ribbon */
+.bookmark {
+  position: absolute;
+  top: 0;
+  right: 50px;
+  width: 30px;
+  height: 80px;
+  background: crimson;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
